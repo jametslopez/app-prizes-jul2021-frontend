@@ -1,0 +1,22 @@
+// variables
+// @import "../../variable.scss";
+
+.winner-page {
+  
+}
+.error-msg {
+    border: 2px solid red;
+}
+.success-msg{
+    border: 2px solid green;
+}
+h2{
+    color: #ffffff !important;
+}
+.finish {
+    text-align: center;
+    margin: 45px 0 75px;
+    button {
+        font-size: 2rem;
+    }
+}
