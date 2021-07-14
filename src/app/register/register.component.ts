@@ -20,12 +20,14 @@ import { AppprizesService } from '../services/appprizes.service';
 })
 export class RegisterComponent implements OnInit, AfterViewInit {
   registerForm: FormGroup;
+  dniForm: FormGroup;
   errorMsg = new ErrorMsg();
   firstnameStyle: string;
   lastnameStyle: string;
   emailStyle: string;
   mobileStyle: string;
   addressStyle: string;
+  dniStyle: string;
 
   @ViewChild('serverErrorCode', { static: false })
   serverErrorCode: TemplateRef<any>;
@@ -61,9 +63,53 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       mobile: new FormControl('', [Validators.required]),
       address: new FormControl('', [Validators.required]),
     });
+
+    this.dniForm = new FormGroup({
+      dni: new FormControl('', [Validators.required]),
+    });
+  }
+  onSubmitDni() {
+    let gotoSubmit = true;
+    this.errorMsg.message = '';
+
+    if (this.dniForm.controls.dni.status === 'INVALID') {
+      gotoSubmit = false;
+      this.errorMsg.valid = false;
+      this.errorMsg.message += '\nPor favor, ingrese su DNI';
+      this.errorMsg.type = 'dni';
+      this.dniStyle = 'error-msg';
+    } else {
+      this.dniStyle = 'success-msg';
+    }
+    if (gotoSubmit) {
+      console.log('gotoSubmit', gotoSubmit);
+
+      this.appprizesService
+        .searchDNI(this.dniForm.controls.dni.value)
+        .subscribe(
+          (response) => {
+            console.log(response);
+            if (response.status) {
+              this.registerForm.patchValue({
+                firstname: response.response.lastname1,
+                lastname: response.response.lastname2,
+                address: response.response.address,
+              });
+            } else {
+              this.errorMsg.valid = false;
+              this.errorMsg.message += '\n' + response.message;
+            }
+          },
+          (error) => {
+            console.error(error);
+            this.openModal(this.serverErrorCode, 'sm');
+          }
+        );
+    }
   }
   onSubmit() {
     let gotoSubmit = true;
+    this.dniStyle = '';
     this.errorMsg.message = '';
 
     if (this.registerForm.controls.firstname.status === 'INVALID') {

@@ -48,6 +48,24 @@ export class AppprizesService {
     const httpObservable = this.http.get<any>(url, { headers });
 
     return httpObservable;
+
+  }
+
+  searchDNI(dni) {
+    const headers: HttpHeaders = new HttpHeaders({
+      'X-Authorization-APP': this.apiAuthKey,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    });
+
+    const url = this.apiUrl + 'dni';
+
+    const params = new HttpParams().set('dni', dni);
+
+    const httpObservable = this.http.post<any>(url, params.toString(), {
+      headers,
+    });
+
+    return httpObservable;
   }
 
   registerClient(firstname, lastname, email, mobile, address) {
