@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { SecurityGuard } from "./services/security.guard";
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { CodecuponComponent } from './codecupon/codecupon.component';
@@ -20,14 +21,17 @@ const routes: Routes = [
   {
     path: 'codecupon',
     component: CodecuponComponent,
+    canActivate: [SecurityGuard],
   },
   {
     path: 'thankyou',
     component: ThankyouComponent,
+    canActivate: [SecurityGuard],
   },
   {
     path: 'winner',
     component: WinnerComponent,
+    canActivate: [SecurityGuard],
   },
 ];
 

@@ -50,4 +50,7 @@ export class ThankyouComponent implements OnInit, AfterViewInit {
     this.appprizesService.pubid = "";
     this.router.navigate(["/home"], { relativeTo: this.route });
   }
+  newCodigo() {
+    this.router.navigate(["/codecupon"], { relativeTo: this.route });
+  }
 }
